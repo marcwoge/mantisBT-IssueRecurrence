@@ -1,0 +1,17 @@
+/**
+ * IssueRecurrence - Stylesheet
+ */
+
+#issue-recurrence-form label.inline {
+	display: inline-block;
+	margin-bottom: 4px;
+}
+
+#issue-recurrence-form #ir-interval-unit {
+	margin-left: 6px;
+	font-weight: bold;
+}
+
+.table td.category strong {
+	color: #478fca;
+}

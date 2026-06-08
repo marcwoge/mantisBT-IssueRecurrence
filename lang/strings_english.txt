@@ -1,0 +1,134 @@
+<?php
+/**
+ * IssueRecurrence - English language file
+ *
+ * @package IssueRecurrence
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License
+ */
+
+# Plugin metadata
+$s_plugin_title       = 'Recurring Issues';
+$s_plugin_description = 'Automatically creates recurring issues from templates based on a recurrence rule (daily, weekly, monthly, yearly).';
+
+# Menu
+$s_menu_recurrence = 'Recurring Issues';
+
+# Management
+$s_manage_title       = 'Recurring Issues Management';
+$s_new_template       = 'New Template';
+$s_edit_template      = 'Edit Template';
+$s_run_now            = 'Run Now';
+$s_no_templates       = 'No templates created yet.';
+$s_col_status         = 'Status';
+$s_col_name           = 'Name';
+$s_col_project        = 'Project';
+$s_col_summary        = 'Summary';
+$s_col_rule           = 'Recurrence';
+$s_col_next_run       = 'Next Run';
+$s_col_created_count  = 'Created';
+$s_col_actions        = 'Actions';
+$s_status_active      = 'Active';
+$s_status_paused      = 'Paused';
+$s_action_edit        = 'Edit';
+$s_action_pause       = 'Pause';
+$s_action_resume      = 'Resume';
+$s_action_delete      = 'Delete';
+$s_confirm_delete     = 'Really delete this template?';
+$s_cron_hint          = 'A cron job calling cli/run_recurrence.php regularly is recommended. As a fallback, due issues are also created (throttled) on page loads.';
+
+# Form - General
+$s_field_name          = 'Name';
+$s_field_name_hint     = 'Internal name of this recurrence rule (does not appear in the issue).';
+$s_field_enabled       = 'Active';
+$s_field_enabled_label = 'This recurrence is active';
+$s_field_project       = 'Project';
+
+# Form - Issue content
+$s_section_ticket        = 'Issue Template';
+$s_field_category        = 'Category';
+$s_auto_category         = '(automatic)';
+$s_field_summary         = 'Summary';
+$s_field_description      = 'Description';
+$s_placeholder_hint      = 'Placeholders: {date}, {datetime}, {time}, {year}, {month}, {day}, {week} are replaced on creation.';
+$s_field_handler         = 'Assigned To';
+$s_unassigned            = '(nobody)';
+$s_field_priority        = 'Priority';
+$s_field_severity        = 'Severity';
+$s_field_reproducibility = 'Reproducibility';
+$s_field_view_state      = 'View Status';
+$s_field_due_offset      = 'Due Date';
+$s_field_due_offset_hint = 'Days after creation (0 = no due date).';
+
+# Form - Recurrence rule
+$s_section_recurrence = 'Recurrence Rule';
+$s_field_freq_type    = 'Frequency';
+$s_freq_daily         = 'Daily';
+$s_freq_weekly        = 'Weekly';
+$s_freq_monthly       = 'Monthly';
+$s_freq_yearly        = 'Yearly';
+$s_field_interval     = 'Interval';
+$s_every              = 'Every';
+$s_unit_days          = 'day(s)';
+$s_unit_weeks         = 'week(s)';
+$s_unit_months        = 'month(s)';
+$s_unit_years         = 'year(s)';
+$s_field_weekdays     = 'Weekdays';
+$s_field_day_of_month = 'Day of month';
+$s_last_day           = 'Last day';
+$s_field_month        = 'Month';
+$s_field_start_date      = 'Start date';
+$s_field_start_date_hint = 'First occurrence of the series (with time).';
+$s_field_end_date        = 'End date';
+$s_field_end_date_hint   = 'Optional. Leave empty for unlimited recurrence.';
+
+# Buttons
+$s_btn_save   = 'Save';
+$s_btn_cancel = 'Cancel';
+$s_btn_back   = 'Back';
+
+# Manual run
+$s_run_done           = 'Run completed';
+$s_run_result         = 'Created %d issue(s) from %d due template(s).';
+$s_run_created_issues = 'Created issues';
+
+# Configuration
+$s_config_title              = 'IssueRecurrence - Configuration';
+$s_config_manage_threshold   = 'Access level for management';
+$s_config_page_trigger       = 'Trigger on page load';
+$s_config_page_trigger_label = 'Also create due issues on page loads (fallback without cron)';
+$s_config_page_trigger_hint  = 'A cron job is preferred. This fallback depends on traffic and is therefore less precise.';
+$s_config_page_interval      = 'Minimum interval (seconds)';
+$s_config_page_interval_hint = 'Minimum time between two checks on page loads (default 3600 = 1 hour).';
+
+# Weekdays (0 = Sunday)
+$s_weekday_0 = 'Sun';
+$s_weekday_1 = 'Mon';
+$s_weekday_2 = 'Tue';
+$s_weekday_3 = 'Wed';
+$s_weekday_4 = 'Thu';
+$s_weekday_5 = 'Fri';
+$s_weekday_6 = 'Sat';
+
+# Months
+$s_month_1  = 'January';
+$s_month_2  = 'February';
+$s_month_3  = 'March';
+$s_month_4  = 'April';
+$s_month_5  = 'May';
+$s_month_6  = 'June';
+$s_month_7  = 'July';
+$s_month_8  = 'August';
+$s_month_9  = 'September';
+$s_month_10 = 'October';
+$s_month_11 = 'November';
+$s_month_12 = 'December';
+
+# Rule descriptions (for the overview)
+$s_desc_daily      = 'Daily';
+$s_desc_daily_n    = 'Every %d days';
+$s_desc_weekly     = 'Weekly (%s)';
+$s_desc_weekly_n   = 'Every %d weeks (%s)';
+$s_desc_monthly    = 'Monthly on day %s';
+$s_desc_monthly_n  = 'Every %d months on day %s';
+$s_desc_yearly     = 'Yearly on %s %s';
+$s_desc_yearly_n   = 'Every %d years on %s %s';
