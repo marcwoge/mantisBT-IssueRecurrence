@@ -42,6 +42,7 @@ $s_field_name_hint     = 'Internal name of this recurrence rule (does not appear
 $s_field_enabled       = 'Active';
 $s_field_enabled_label = 'This recurrence is active';
 $s_field_project       = 'Project';
+$s_field_project_hint  = 'Changing the project reloads the form to show the matching custom fields.';
 
 # Form - Issue content
 $s_section_ticket        = 'Issue Template';
@@ -58,6 +59,9 @@ $s_field_reproducibility = 'Reproducibility';
 $s_field_view_state      = 'View Status';
 $s_field_due_offset      = 'Due Date';
 $s_field_due_offset_hint = 'Days after creation (0 = no due date).';
+
+# Custom fields
+$s_section_custom_fields = 'Custom Fields';
 
 # Form - Recurrence rule
 $s_section_recurrence = 'Recurrence Rule';

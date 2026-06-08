@@ -19,6 +19,64 @@ require_api( 'category_api.php' );
 require_api( 'database_api.php' );
 require_api( 'user_api.php' );
 require_api( 'project_api.php' );
+require_api( 'custom_field_api.php' );
+require_api( 'gpc_api.php' );
+
+/**
+ * Baut ein Vorlagen-Array aus den geposteten Formulardaten (GPC).
+ * Wird sowohl beim Speichern als auch beim Neuladen (Projektwechsel) verwendet.
+ * @return array
+ */
+function issue_recurrence_gpc_to_template() {
+	$t_start_raw = gpc_get_string( 'start_date', '' );
+	$t_end_raw   = gpc_get_string( 'end_date', '' );
+
+	$t_start_date = strtotime( str_replace( 'T', ' ', $t_start_raw ) );
+	if( $t_start_date === false || $t_start_date <= 0 ) {
+		$t_start_date = time();
+	}
+	$t_end_date = null;
+	if( trim( $t_end_raw ) !== '' ) {
+		$t_end_parsed = strtotime( str_replace( 'T', ' ', $t_end_raw ) );
+		if( $t_end_parsed !== false && $t_end_parsed > 0 ) {
+			$t_end_date = $t_end_parsed;
+		}
+	}
+
+	$t_weekdays = gpc_get_int_array( 'weekdays', array() );
+	sort( $t_weekdays );
+
+	$t_freq = gpc_get_string( 'freq_type', 'daily' );
+	if( !in_array( $t_freq, issue_recurrence_freq_types(), true ) ) {
+		$t_freq = 'daily';
+	}
+
+	return array(
+		'id'              => gpc_get_int( 'id', 0 ),
+		'name'            => trim( gpc_get_string( 'name', '' ) ),
+		'enabled'         => gpc_get_bool( 'enabled', false ) ? 1 : 0,
+		'project_id'      => gpc_get_int( 'project_id' ),
+		'reporter_id'     => auth_get_current_user_id(),
+		'handler_id'      => gpc_get_int( 'handler_id', 0 ),
+		'category_id'     => gpc_get_int( 'category_id', 0 ),
+		'summary'         => trim( gpc_get_string( 'summary', '' ) ),
+		'description'     => gpc_get_string( 'description', '' ),
+		'priority'        => gpc_get_int( 'priority' ),
+		'severity'        => gpc_get_int( 'severity' ),
+		'reproducibility' => gpc_get_int( 'reproducibility' ),
+		'view_state'      => gpc_get_int( 'view_state', VS_PUBLIC ),
+		'due_date_offset' => gpc_get_int( 'due_date_offset', 0 ),
+		'freq_type'       => $t_freq,
+		'freq_interval'   => max( 1, gpc_get_int( 'freq_interval', 1 ) ),
+		'weekdays'        => implode( ',', array_map( 'intval', $t_weekdays ) ),
+		'day_of_month'    => gpc_get_int( 'day_of_month', 1 ),
+		'month_of_year'   => gpc_get_int( 'month_of_year', 1 ),
+		'start_date'      => $t_start_date,
+		'end_date'        => $t_end_date,
+		'last_run'        => null,
+		'next_run'        => null,
+	);
+}
 
 /**
  * Liefert die Standardstruktur einer leeren Vorlage.
@@ -166,6 +224,101 @@ function issue_recurrence_template_delete( $p_id ) {
 	$t_id = (int)$p_id;
 	db_query( 'DELETE FROM ' . plugin_table( 'template' ) . ' WHERE id = ' . db_param(), array( $t_id ) );
 	db_query( 'DELETE FROM ' . plugin_table( 'history' ) . ' WHERE template_id = ' . db_param(), array( $t_id ) );
+	db_query( 'DELETE FROM ' . plugin_table( 'cf_value' ) . ' WHERE template_id = ' . db_param(), array( $t_id ) );
+}
+
+# ---------------------------------------------------------------------------
+# Custom Fields
+# ---------------------------------------------------------------------------
+
+/**
+ * Laedt die gespeicherten Custom-Field-Werte einer Vorlage.
+ * @param int $p_template_id Vorlagen-ID.
+ * @return array field_id => value (string).
+ */
+function issue_recurrence_cf_get_values( $p_template_id ) {
+	$t_values = array();
+	if( (int)$p_template_id <= 0 ) {
+		return $t_values;
+	}
+	$t_result = db_query(
+		'SELECT field_id, value FROM ' . plugin_table( 'cf_value' ) . ' WHERE template_id = ' . db_param(),
+		array( (int)$p_template_id )
+	);
+	while( $t_row = db_fetch_array( $t_result ) ) {
+		$t_values[(int)$t_row['field_id']] = $t_row['value'];
+	}
+	return $t_values;
+}
+
+/**
+ * Speichert die Custom-Field-Werte einer Vorlage (ersetzt vorhandene).
+ * @param int   $p_template_id Vorlagen-ID.
+ * @param array $p_values      field_id => value.
+ * @return void
+ */
+function issue_recurrence_cf_save_values( $p_template_id, array $p_values ) {
+	$t_template_id = (int)$p_template_id;
+	if( $t_template_id <= 0 ) {
+		return;
+	}
+	# Alte Werte entfernen und neu schreiben (einfach und konsistent).
+	db_query( 'DELETE FROM ' . plugin_table( 'cf_value' ) . ' WHERE template_id = ' . db_param(), array( $t_template_id ) );
+	foreach( $p_values as $t_field_id => $t_value ) {
+		if( $t_value === null ) {
+			continue;
+		}
+		db_query(
+			'INSERT INTO ' . plugin_table( 'cf_value' ) . ' (template_id, field_id, value) VALUES (' . db_param() . ', ' . db_param() . ', ' . db_param() . ')',
+			array( $t_template_id, (int)$t_field_id, (string)$t_value )
+		);
+	}
+}
+
+/**
+ * Liest die im Formular geposteten Custom-Field-Werte fuer ein Projekt aus.
+ * @param int $p_project_id Projekt-ID.
+ * @return array field_id => value.
+ */
+function issue_recurrence_cf_gpc_values( $p_project_id ) {
+	$t_values = array();
+	$t_ids = custom_field_get_linked_ids( (int)$p_project_id );
+	foreach( $t_ids as $t_id ) {
+		$t_def = custom_field_get_definition( $t_id );
+		# Nur Felder beruecksichtigen, die im Formular tatsaechlich vorhanden waren.
+		if( !custom_field_is_present( $t_id ) ) {
+			continue;
+		}
+		$t_value = gpc_get_custom_field( 'custom_field_' . $t_id, $t_def['type'], null );
+		$t_values[(int)$t_id] = ( $t_value === null ) ? '' : (string)$t_value;
+	}
+	return $t_values;
+}
+
+/**
+ * Uebertraegt die gespeicherten Custom-Field-Werte einer Vorlage auf ein Ticket.
+ * @param int $p_template_id Vorlagen-ID.
+ * @param int $p_bug_id      Ziel-Ticket.
+ * @param int $p_project_id  Projekt des Tickets.
+ * @return void
+ */
+function issue_recurrence_apply_custom_fields( $p_template_id, $p_bug_id, $p_project_id ) {
+	$t_values = issue_recurrence_cf_get_values( $p_template_id );
+	if( empty( $t_values ) ) {
+		return;
+	}
+	$t_linked = custom_field_get_linked_ids( (int)$p_project_id );
+	foreach( $t_linked as $t_id ) {
+		if( !isset( $t_values[$t_id] ) || $t_values[$t_id] === '' ) {
+			continue;
+		}
+		# Fehler einzelner Felder duerfen die Ticket-Erstellung nicht abbrechen.
+		try {
+			custom_field_set_value( $t_id, $p_bug_id, $t_values[$t_id], false );
+		} catch( Exception $e ) {
+			# still: ungueltige/abgelehnte Werte ueberspringen.
+		}
+	}
 }
 
 /**
@@ -216,6 +369,9 @@ function issue_recurrence_create_bug( array $p_template ) {
 	}
 
 	$t_bug_id = $t_bug->create();
+
+	# Custom-Field-Werte der Vorlage auf das neue Ticket uebertragen.
+	issue_recurrence_apply_custom_fields( (int)$p_template['id'], $t_bug_id, $t_project_id );
 
 	# Historie protokollieren.
 	db_query(

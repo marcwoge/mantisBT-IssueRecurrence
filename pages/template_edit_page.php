@@ -15,21 +15,31 @@ require_api( 'gpc_api.php' );
 require_api( 'print_api.php' );
 require_api( 'html_api.php' );
 require_api( 'category_api.php' );
+require_api( 'custom_field_api.php' );
 
 auth_ensure_user_authenticated();
 access_ensure_project_level( plugin_config_get( 'manage_threshold' ) );
 
-$f_id = gpc_get_int( 'id', 0 );
+$f_id     = gpc_get_int( 'id', 0 );
+$f_reload = gpc_get_bool( 'reload', false );
 
-if( $f_id > 0 ) {
+if( $f_reload ) {
+	# Neuladen nach Projektwechsel: alle eingegebenen Werte aus POST uebernehmen,
+	# damit nichts verloren geht; Custom Fields fuer das (neue) Projekt aus POST lesen.
+	$t_template = issue_recurrence_gpc_to_template();
+	$t_is_new = ( $f_id == 0 );
+	$t_cf_values = issue_recurrence_cf_gpc_values( (int)$t_template['project_id'] );
+} else if( $f_id > 0 ) {
 	$t_template = issue_recurrence_template_get( $f_id );
 	if( $t_template === null ) {
 		trigger_error( ERROR_GENERIC, ERROR );
 	}
 	$t_is_new = false;
+	$t_cf_values = issue_recurrence_cf_get_values( $f_id );
 } else {
 	$t_template = issue_recurrence_template_blank();
 	$t_is_new = true;
+	$t_cf_values = array();
 }
 
 $t_project_id = (int)$t_template['project_id'] > 0 ? (int)$t_template['project_id'] : helper_get_current_project();
@@ -70,6 +80,7 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 <form id="issue-recurrence-form" method="post" action="<?php echo plugin_page( 'template_save' ) ?>">
 <?php echo form_security_field( 'plugin_IssueRecurrence_save' ) ?>
 <input type="hidden" name="id" value="<?php echo (int)$t_template['id'] ?>"/>
+<input type="hidden" name="reload" id="ir-reload" value="0"/>
 
 <div class="widget-box widget-color-blue2">
 	<div class="widget-header widget-header-small">
@@ -104,9 +115,10 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 		<tr>
 			<td class="category"><?php echo plugin_lang_get( 'field_project' ) ?></td>
 			<td>
-				<select name="project_id" class="input-sm">
+				<select name="project_id" id="ir-project" class="input-sm">
 					<?php print_project_option_list( $t_project_id, false ) ?>
 				</select>
+				<p class="help-block small"><?php echo plugin_lang_get( 'field_project_hint' ) ?></p>
 			</td>
 		</tr>
 
@@ -174,6 +186,46 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 				<span class="small"><?php echo plugin_lang_get( 'field_due_offset_hint' ) ?></span>
 			</td>
 		</tr>
+
+		<!-- Benutzerdefinierte Felder (projektabhaengig) -->
+<?php
+		$t_cf_ids = custom_field_get_linked_ids( $t_project_id );
+		if( !empty( $t_cf_ids ) ) {
+?>
+		<tr><td class="category" colspan="2"><strong><?php echo plugin_lang_get( 'section_custom_fields' ) ?></strong></td></tr>
+<?php
+			global $g_custom_field_type_definition;
+			foreach( $t_cf_ids as $t_cf_id ) {
+				$t_cf_def = custom_field_get_definition( $t_cf_id );
+				$t_cf_type = (int)$t_cf_def['type'];
+
+				# Aktuellen Wert bestimmen: gespeicherter Vorlagenwert oder Standardwert.
+				if( isset( $t_cf_values[$t_cf_id] ) && $t_cf_values[$t_cf_id] !== '' ) {
+					$t_cf_value = $t_cf_values[$t_cf_id];
+				} else {
+					$t_cf_value = custom_field_default_to_value( $t_cf_def['default_value'], $t_cf_type );
+				}
+
+				# Typ-spezifische Eingabe-Datei laden, falls noch nicht geschehen.
+				if( isset( $g_custom_field_type_definition[$t_cf_type]['#function_file'] ) ) {
+					require_once( $g_custom_field_type_definition[$t_cf_type]['#function_file'] );
+				}
+?>
+		<tr>
+			<td class="category"><?php echo string_display_line( lang_get_defaulted( $t_cf_def['name'] ) ) ?></td>
+			<td>
+<?php
+				if( isset( $g_custom_field_type_definition[$t_cf_type]['#function_print_input'] ) ) {
+					call_user_func( $g_custom_field_type_definition[$t_cf_type]['#function_print_input'], $t_cf_def, $t_cf_value, '' );
+					print_hidden_input( custom_field_presence_field_name( $t_cf_id ), '1' );
+				}
+?>
+			</td>
+		</tr>
+<?php
+			}
+		}
+?>
 
 		<!-- Wiederholungsregel -->
 		<tr><td class="category" colspan="2"><strong><?php echo plugin_lang_get( 'section_recurrence' ) ?></strong></td></tr>
@@ -287,6 +339,18 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 	}
 	document.getElementById( 'ir-freq-type' ).addEventListener( 'change', updateRecurrenceFields );
 	updateRecurrenceFields();
+
+	// Bei Projektwechsel das Formular neu laden, damit die Custom Fields des
+	// gewaehlten Projekts erscheinen. Alle Eingaben werden per POST mitgenommen.
+	var projectSelect = document.getElementById( 'ir-project' );
+	if( projectSelect ) {
+		projectSelect.addEventListener( 'change', function() {
+			var form = document.getElementById( 'issue-recurrence-form' );
+			document.getElementById( 'ir-reload' ).value = '1';
+			form.action = '<?php echo plugin_page( 'template_edit_page' ) ?>';
+			form.submit();
+		} );
+	}
 })();
 </script>
 <?php

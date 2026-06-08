@@ -19,6 +19,7 @@ automatisch in den festgelegten Abständen neue Tickets.
   - **Jährlich** – alle *N* Jahre an einem bestimmten Tag/Monat
 - 🗓️ **Start- und (optionales) Enddatum** mit Uhrzeit.
 - 🎯 **Vollständige Ticket-Vorlage** – Projekt, Kategorie, Zusammenfassung, Beschreibung, Bearbeiter, Priorität, Schweregrad, Reproduzierbarkeit, Sichtbarkeit und optionales Fälligkeitsdatum.
+- 🧩 **Benutzerdefinierte Felder (Custom Fields)** – die dem gewählten Projekt zugeordneten Custom Fields werden im Formular angezeigt, in der Vorlage gespeichert und beim Erstellen auf das neue Ticket übertragen. Beim Wechsel des Projekts lädt das Formular automatisch die passenden Felder.
 - 🔣 **Platzhalter** in Zusammenfassung/Beschreibung: `{date}`, `{datetime}`, `{time}`, `{year}`, `{month}`, `{day}`, `{week}`.
 - ⏯️ **Aktivieren/Pausieren** einzelner Regeln, ohne sie zu löschen.
 - ⏱️ **Zwei Auslöse-Mechanismen** (kombinierbar):
@@ -138,6 +139,13 @@ Wiederholungsparameter + `next_run`/`last_run`).
 
 **`plugin_IssueRecurrence_history`** – Protokoll, welches Ticket aus welcher
 Vorlage wann erzeugt wurde.
+
+**`plugin_IssueRecurrence_cf_value`** – die je Vorlage gespeicherten Werte der
+benutzerdefinierten Felder (`template_id`, `field_id`, `value`).
+
+> Hinweis zu Custom Fields: Angezeigt und gespeichert werden die Felder, die dem
+> im Formular gewählten Projekt zugeordnet sind. Wird das Projekt einer Vorlage
+> später geändert, sollten die projektspezifischen Felder erneut geprüft werden.
 
 ---
 

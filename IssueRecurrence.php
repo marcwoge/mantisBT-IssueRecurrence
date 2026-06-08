@@ -105,6 +105,15 @@ class IssueRecurrencePlugin extends MantisPlugin {
 				created_at          I       UNSIGNED NOTNULL DEFAULT '1'
 				", array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateIndexSQL', array( 'idx_irh_template', plugin_table( 'history' ), 'template_id' ) ),
+
+			# --- Tabelle: Custom-Field-Werte je Vorlage ---
+			array( 'CreateTableSQL', array( plugin_table( 'cf_value' ), "
+				id                  I       NOTNULL UNSIGNED AUTOINCREMENT PRIMARY,
+				template_id         I       NOTNULL UNSIGNED DEFAULT '0',
+				field_id            I       NOTNULL UNSIGNED DEFAULT '0',
+				value               XL      NOTNULL
+				", array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
+			array( 'CreateIndexSQL', array( 'idx_ircf_template_field', plugin_table( 'cf_value' ), 'template_id,field_id', array( 'UNIQUE' ) ) ),
 		);
 	}
 

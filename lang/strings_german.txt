@@ -42,6 +42,7 @@ $s_field_name_hint     = 'Interner Name dieser Wiederholungsregel (erscheint nic
 $s_field_enabled       = 'Aktiv';
 $s_field_enabled_label = 'Diese Wiederholung ist aktiv';
 $s_field_project       = 'Projekt';
+$s_field_project_hint  = 'Bei Wechsel des Projekts wird das Formular neu geladen, um die passenden benutzerdefinierten Felder anzuzeigen.';
 
 # Formular - Ticket-Inhalt
 $s_section_ticket        = 'Ticket-Vorlage';
@@ -58,6 +59,9 @@ $s_field_reproducibility = 'Reproduzierbarkeit';
 $s_field_view_state      = 'Sichtbarkeit';
 $s_field_due_offset      = 'Faelligkeit';
 $s_field_due_offset_hint = 'Tage nach Erstellung (0 = kein Faelligkeitsdatum).';
+
+# Benutzerdefinierte Felder
+$s_section_custom_fields = 'Benutzerdefinierte Felder';
 
 # Formular - Wiederholungsregel
 $s_section_recurrence = 'Wiederholungsregel';
