@@ -7,132 +7,132 @@
  */
 
 # Plugin-Metadaten
-$s_plugin_title       = 'Wiederkehrende Tickets';
-$s_plugin_description = 'Erstellt automatisch wiederkehrende Tickets aus Vorlagen nach einer Wiederholungsregel (taeglich, woechentlich, monatlich, jaehrlich).';
+$s_plugin_IssueRecurrence_plugin_title       = 'Wiederkehrende Tickets';
+$s_plugin_IssueRecurrence_plugin_description = 'Erstellt automatisch wiederkehrende Tickets aus Vorlagen nach einer Wiederholungsregel (taeglich, woechentlich, monatlich, jaehrlich).';
 
 # Menue
-$s_menu_recurrence = 'Wiederkehrende Tickets';
+$s_plugin_IssueRecurrence_menu_recurrence = 'Wiederkehrende Tickets';
 
 # Verwaltung
-$s_manage_title       = 'Verwaltung wiederkehrender Tickets';
-$s_new_template       = 'Neue Vorlage';
-$s_edit_template      = 'Vorlage bearbeiten';
-$s_run_now            = 'Jetzt ausfuehren';
-$s_no_templates       = 'Noch keine Vorlagen angelegt.';
-$s_col_status         = 'Status';
-$s_col_name           = 'Bezeichnung';
-$s_col_project        = 'Projekt';
-$s_col_summary        = 'Zusammenfassung';
-$s_col_rule           = 'Wiederholung';
-$s_col_next_run       = 'Naechste Ausfuehrung';
-$s_col_created_count  = 'Erstellt';
-$s_col_actions        = 'Aktionen';
-$s_status_active      = 'Aktiv';
-$s_status_paused      = 'Pausiert';
-$s_action_edit        = 'Bearbeiten';
-$s_action_pause       = 'Pausieren';
-$s_action_resume      = 'Aktivieren';
-$s_action_delete      = 'Loeschen';
-$s_confirm_delete     = 'Diese Vorlage wirklich loeschen?';
-$s_cron_hint          = 'Empfohlen wird ein Cronjob, der cli/run_recurrence.php regelmaessig aufruft. Alternativ werden faellige Tickets (gedrosselt) auch bei Seitenaufrufen erzeugt.';
+$s_plugin_IssueRecurrence_manage_title       = 'Verwaltung wiederkehrender Tickets';
+$s_plugin_IssueRecurrence_new_template       = 'Neue Vorlage';
+$s_plugin_IssueRecurrence_edit_template      = 'Vorlage bearbeiten';
+$s_plugin_IssueRecurrence_run_now            = 'Jetzt ausfuehren';
+$s_plugin_IssueRecurrence_no_templates       = 'Noch keine Vorlagen angelegt.';
+$s_plugin_IssueRecurrence_col_status         = 'Status';
+$s_plugin_IssueRecurrence_col_name           = 'Bezeichnung';
+$s_plugin_IssueRecurrence_col_project        = 'Projekt';
+$s_plugin_IssueRecurrence_col_summary        = 'Zusammenfassung';
+$s_plugin_IssueRecurrence_col_rule           = 'Wiederholung';
+$s_plugin_IssueRecurrence_col_next_run       = 'Naechste Ausfuehrung';
+$s_plugin_IssueRecurrence_col_created_count  = 'Erstellt';
+$s_plugin_IssueRecurrence_col_actions        = 'Aktionen';
+$s_plugin_IssueRecurrence_status_active      = 'Aktiv';
+$s_plugin_IssueRecurrence_status_paused      = 'Pausiert';
+$s_plugin_IssueRecurrence_action_edit        = 'Bearbeiten';
+$s_plugin_IssueRecurrence_action_pause       = 'Pausieren';
+$s_plugin_IssueRecurrence_action_resume      = 'Aktivieren';
+$s_plugin_IssueRecurrence_action_delete      = 'Loeschen';
+$s_plugin_IssueRecurrence_confirm_delete     = 'Diese Vorlage wirklich loeschen?';
+$s_plugin_IssueRecurrence_cron_hint          = 'Empfohlen wird ein Cronjob, der cli/run_recurrence.php regelmaessig aufruft. Alternativ werden faellige Tickets (gedrosselt) auch bei Seitenaufrufen erzeugt.';
 
 # Formular - Allgemein
-$s_field_name          = 'Bezeichnung';
-$s_field_name_hint     = 'Interner Name dieser Wiederholungsregel (erscheint nicht im Ticket).';
-$s_field_enabled       = 'Aktiv';
-$s_field_enabled_label = 'Diese Wiederholung ist aktiv';
-$s_field_project       = 'Projekt';
-$s_field_project_hint  = 'Bei Wechsel des Projekts wird das Formular neu geladen, um die passenden benutzerdefinierten Felder anzuzeigen.';
+$s_plugin_IssueRecurrence_field_name          = 'Bezeichnung';
+$s_plugin_IssueRecurrence_field_name_hint     = 'Interner Name dieser Wiederholungsregel (erscheint nicht im Ticket).';
+$s_plugin_IssueRecurrence_field_enabled       = 'Aktiv';
+$s_plugin_IssueRecurrence_field_enabled_label = 'Diese Wiederholung ist aktiv';
+$s_plugin_IssueRecurrence_field_project       = 'Projekt';
+$s_plugin_IssueRecurrence_field_project_hint  = 'Bei Wechsel des Projekts wird das Formular neu geladen, um die passenden benutzerdefinierten Felder anzuzeigen.';
 
 # Formular - Ticket-Inhalt
-$s_section_ticket        = 'Ticket-Vorlage';
-$s_field_category        = 'Kategorie';
-$s_auto_category         = '(automatisch)';
-$s_field_summary         = 'Zusammenfassung';
-$s_field_description      = 'Beschreibung';
-$s_placeholder_hint      = 'Platzhalter: {date}, {datetime}, {time}, {year}, {month}, {day}, {week} werden beim Erstellen ersetzt.';
-$s_field_handler         = 'Zugewiesen an';
-$s_unassigned            = '(niemand)';
-$s_field_priority        = 'Prioritaet';
-$s_field_severity        = 'Schweregrad';
-$s_field_reproducibility = 'Reproduzierbarkeit';
-$s_field_view_state      = 'Sichtbarkeit';
-$s_field_due_offset      = 'Faelligkeit';
-$s_field_due_offset_hint = 'Tage nach Erstellung (0 = kein Faelligkeitsdatum).';
+$s_plugin_IssueRecurrence_section_ticket        = 'Ticket-Vorlage';
+$s_plugin_IssueRecurrence_field_category        = 'Kategorie';
+$s_plugin_IssueRecurrence_auto_category         = '(automatisch)';
+$s_plugin_IssueRecurrence_field_summary         = 'Zusammenfassung';
+$s_plugin_IssueRecurrence_field_description      = 'Beschreibung';
+$s_plugin_IssueRecurrence_placeholder_hint      = 'Platzhalter: {date}, {datetime}, {time}, {year}, {month}, {day}, {week} werden beim Erstellen ersetzt.';
+$s_plugin_IssueRecurrence_field_handler         = 'Zugewiesen an';
+$s_plugin_IssueRecurrence_unassigned            = '(niemand)';
+$s_plugin_IssueRecurrence_field_priority        = 'Prioritaet';
+$s_plugin_IssueRecurrence_field_severity        = 'Schweregrad';
+$s_plugin_IssueRecurrence_field_reproducibility = 'Reproduzierbarkeit';
+$s_plugin_IssueRecurrence_field_view_state      = 'Sichtbarkeit';
+$s_plugin_IssueRecurrence_field_due_offset      = 'Faelligkeit';
+$s_plugin_IssueRecurrence_field_due_offset_hint = 'Tage nach Erstellung (0 = kein Faelligkeitsdatum).';
 
 # Benutzerdefinierte Felder
-$s_section_custom_fields = 'Benutzerdefinierte Felder';
+$s_plugin_IssueRecurrence_section_custom_fields = 'Benutzerdefinierte Felder';
 
 # Formular - Wiederholungsregel
-$s_section_recurrence = 'Wiederholungsregel';
-$s_field_freq_type    = 'Haeufigkeit';
-$s_freq_daily         = 'Taeglich';
-$s_freq_weekly        = 'Woechentlich';
-$s_freq_monthly       = 'Monatlich';
-$s_freq_yearly        = 'Jaehrlich';
-$s_field_interval     = 'Intervall';
-$s_every              = 'Alle';
-$s_unit_days          = 'Tag(e)';
-$s_unit_weeks         = 'Woche(n)';
-$s_unit_months        = 'Monat(e)';
-$s_unit_years         = 'Jahr(e)';
-$s_field_weekdays     = 'Wochentage';
-$s_field_day_of_month = 'Tag im Monat';
-$s_last_day           = 'Letzter Tag';
-$s_field_month        = 'Monat';
-$s_field_start_date      = 'Startdatum';
-$s_field_start_date_hint = 'Erster Termin der Serie (mit Uhrzeit).';
-$s_field_end_date        = 'Enddatum';
-$s_field_end_date_hint   = 'Optional. Leer lassen fuer unbegrenzte Wiederholung.';
+$s_plugin_IssueRecurrence_section_recurrence = 'Wiederholungsregel';
+$s_plugin_IssueRecurrence_field_freq_type    = 'Haeufigkeit';
+$s_plugin_IssueRecurrence_freq_daily         = 'Taeglich';
+$s_plugin_IssueRecurrence_freq_weekly        = 'Woechentlich';
+$s_plugin_IssueRecurrence_freq_monthly       = 'Monatlich';
+$s_plugin_IssueRecurrence_freq_yearly        = 'Jaehrlich';
+$s_plugin_IssueRecurrence_field_interval     = 'Intervall';
+$s_plugin_IssueRecurrence_every              = 'Alle';
+$s_plugin_IssueRecurrence_unit_days          = 'Tag(e)';
+$s_plugin_IssueRecurrence_unit_weeks         = 'Woche(n)';
+$s_plugin_IssueRecurrence_unit_months        = 'Monat(e)';
+$s_plugin_IssueRecurrence_unit_years         = 'Jahr(e)';
+$s_plugin_IssueRecurrence_field_weekdays     = 'Wochentage';
+$s_plugin_IssueRecurrence_field_day_of_month = 'Tag im Monat';
+$s_plugin_IssueRecurrence_last_day           = 'Letzter Tag';
+$s_plugin_IssueRecurrence_field_month        = 'Monat';
+$s_plugin_IssueRecurrence_field_start_date      = 'Startdatum';
+$s_plugin_IssueRecurrence_field_start_date_hint = 'Erster Termin der Serie (mit Uhrzeit).';
+$s_plugin_IssueRecurrence_field_end_date        = 'Enddatum';
+$s_plugin_IssueRecurrence_field_end_date_hint   = 'Optional. Leer lassen fuer unbegrenzte Wiederholung.';
 
 # Buttons
-$s_btn_save   = 'Speichern';
-$s_btn_cancel = 'Abbrechen';
-$s_btn_back   = 'Zurueck';
+$s_plugin_IssueRecurrence_btn_save   = 'Speichern';
+$s_plugin_IssueRecurrence_btn_cancel = 'Abbrechen';
+$s_plugin_IssueRecurrence_btn_back   = 'Zurueck';
 
 # Manueller Lauf
-$s_run_done           = 'Lauf abgeschlossen';
-$s_run_result         = '%d Ticket(s) aus %d faelligen Vorlage(n) erstellt.';
-$s_run_created_issues = 'Erstellte Tickets';
+$s_plugin_IssueRecurrence_run_done           = 'Lauf abgeschlossen';
+$s_plugin_IssueRecurrence_run_result         = '%d Ticket(s) aus %d faelligen Vorlage(n) erstellt.';
+$s_plugin_IssueRecurrence_run_created_issues = 'Erstellte Tickets';
 
 # Konfiguration
-$s_config_title              = 'IssueRecurrence - Konfiguration';
-$s_config_manage_threshold   = 'Zugriffsebene fuer die Verwaltung';
-$s_config_page_trigger       = 'Trigger bei Seitenaufruf';
-$s_config_page_trigger_label = 'Faellige Tickets auch bei Seitenaufrufen erzeugen (Fallback ohne Cron)';
-$s_config_page_trigger_hint  = 'Bevorzugt wird der Cronjob. Dieser Fallback ist abhaengig vom Seitenverkehr und daher ungenauer.';
-$s_config_page_interval      = 'Mindestabstand (Sekunden)';
-$s_config_page_interval_hint = 'Mindestabstand zwischen zwei Pruefungen bei Seitenaufrufen (Standard 3600 = 1 Stunde).';
+$s_plugin_IssueRecurrence_config_title              = 'IssueRecurrence - Konfiguration';
+$s_plugin_IssueRecurrence_config_manage_threshold   = 'Zugriffsebene fuer die Verwaltung';
+$s_plugin_IssueRecurrence_config_page_trigger       = 'Trigger bei Seitenaufruf';
+$s_plugin_IssueRecurrence_config_page_trigger_label = 'Faellige Tickets auch bei Seitenaufrufen erzeugen (Fallback ohne Cron)';
+$s_plugin_IssueRecurrence_config_page_trigger_hint  = 'Bevorzugt wird der Cronjob. Dieser Fallback ist abhaengig vom Seitenverkehr und daher ungenauer.';
+$s_plugin_IssueRecurrence_config_page_interval      = 'Mindestabstand (Sekunden)';
+$s_plugin_IssueRecurrence_config_page_interval_hint = 'Mindestabstand zwischen zwei Pruefungen bei Seitenaufrufen (Standard 3600 = 1 Stunde).';
 
 # Wochentage (0 = Sonntag)
-$s_weekday_0 = 'So';
-$s_weekday_1 = 'Mo';
-$s_weekday_2 = 'Di';
-$s_weekday_3 = 'Mi';
-$s_weekday_4 = 'Do';
-$s_weekday_5 = 'Fr';
-$s_weekday_6 = 'Sa';
+$s_plugin_IssueRecurrence_weekday_0 = 'So';
+$s_plugin_IssueRecurrence_weekday_1 = 'Mo';
+$s_plugin_IssueRecurrence_weekday_2 = 'Di';
+$s_plugin_IssueRecurrence_weekday_3 = 'Mi';
+$s_plugin_IssueRecurrence_weekday_4 = 'Do';
+$s_plugin_IssueRecurrence_weekday_5 = 'Fr';
+$s_plugin_IssueRecurrence_weekday_6 = 'Sa';
 
 # Monate
-$s_month_1  = 'Januar';
-$s_month_2  = 'Februar';
-$s_month_3  = 'Maerz';
-$s_month_4  = 'April';
-$s_month_5  = 'Mai';
-$s_month_6  = 'Juni';
-$s_month_7  = 'Juli';
-$s_month_8  = 'August';
-$s_month_9  = 'September';
-$s_month_10 = 'Oktober';
-$s_month_11 = 'November';
-$s_month_12 = 'Dezember';
+$s_plugin_IssueRecurrence_month_1  = 'Januar';
+$s_plugin_IssueRecurrence_month_2  = 'Februar';
+$s_plugin_IssueRecurrence_month_3  = 'Maerz';
+$s_plugin_IssueRecurrence_month_4  = 'April';
+$s_plugin_IssueRecurrence_month_5  = 'Mai';
+$s_plugin_IssueRecurrence_month_6  = 'Juni';
+$s_plugin_IssueRecurrence_month_7  = 'Juli';
+$s_plugin_IssueRecurrence_month_8  = 'August';
+$s_plugin_IssueRecurrence_month_9  = 'September';
+$s_plugin_IssueRecurrence_month_10 = 'Oktober';
+$s_plugin_IssueRecurrence_month_11 = 'November';
+$s_plugin_IssueRecurrence_month_12 = 'Dezember';
 
 # Beschreibungstexte der Regel (fuer die Uebersicht)
-$s_desc_daily      = 'Taeglich';
-$s_desc_daily_n    = 'Alle %d Tage';
-$s_desc_weekly     = 'Woechentlich (%s)';
-$s_desc_weekly_n   = 'Alle %d Wochen (%s)';
-$s_desc_monthly    = 'Monatlich am %s.';
-$s_desc_monthly_n  = 'Alle %d Monate am %s.';
-$s_desc_yearly     = 'Jaehrlich am %s. %s';
-$s_desc_yearly_n   = 'Alle %d Jahre am %s. %s';
+$s_plugin_IssueRecurrence_desc_daily      = 'Taeglich';
+$s_plugin_IssueRecurrence_desc_daily_n    = 'Alle %d Tage';
+$s_plugin_IssueRecurrence_desc_weekly     = 'Woechentlich (%s)';
+$s_plugin_IssueRecurrence_desc_weekly_n   = 'Alle %d Wochen (%s)';
+$s_plugin_IssueRecurrence_desc_monthly    = 'Monatlich am %s.';
+$s_plugin_IssueRecurrence_desc_monthly_n  = 'Alle %d Monate am %s.';
+$s_plugin_IssueRecurrence_desc_yearly     = 'Jaehrlich am %s. %s';
+$s_plugin_IssueRecurrence_desc_yearly_n   = 'Alle %d Jahre am %s. %s';

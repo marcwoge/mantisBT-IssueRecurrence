@@ -26,11 +26,14 @@ class IssueRecurrencePlugin extends MantisPlugin {
 	 * @return void
 	 */
 	function register() {
-		$this->name        = plugin_lang_get( 'plugin_title' );
-		$this->description  = plugin_lang_get( 'plugin_description' );
+		# Feste Strings statt plugin_lang_get(): waehrend register() ist die
+		# Plugin-Sprachdatei bei noch nicht installierten Plugins nicht geladen
+		# (sonst APPLICATION WARNING #300). Menues/Seiten bleiben lokalisiert.
+		$this->name        = 'Issue Recurrence';
+		$this->description  = 'Creates recurring issues (series) from templates based on a recurrence rule (daily, weekly, monthly, yearly), including custom fields of the target project.';
 		$this->page         = 'config';
 
-		$this->version      = '0.1.0';
+		$this->version      = '1.0.0';
 		$this->requires     = array(
 			'MantisCore' => '2.0.0',
 		);
@@ -194,7 +197,7 @@ class IssueRecurrencePlugin extends MantisPlugin {
 		# Sofort den Zeitstempel setzen, um parallele Laeufe zu vermeiden.
 		plugin_config_set( 'page_trigger_last', $t_now );
 
-		require_once( $this->basepath . '/core/recurrence_api.php' );
+		require_once( __DIR__ . '/core/recurrence_api.php' );
 		# Fehler hier duerfen niemals den normalen Seitenaufruf stoeren.
 		try {
 			issue_recurrence_run_due();
@@ -208,7 +211,7 @@ class IssueRecurrencePlugin extends MantisPlugin {
 	 * @return void
 	 */
 	function init() {
-		require_once( $this->basepath . '/core/schedule_api.php' );
-		require_once( $this->basepath . '/core/recurrence_api.php' );
+		require_once( __DIR__ . '/core/schedule_api.php' );
+		require_once( __DIR__ . '/core/recurrence_api.php' );
 	}
 }
