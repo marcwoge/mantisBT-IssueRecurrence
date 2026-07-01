@@ -33,7 +33,7 @@ class IssueRecurrencePlugin extends MantisPlugin {
 		$this->description  = 'Creates recurring issues (series) from templates based on a recurrence rule (daily, weekly, monthly, yearly), including custom fields of the target project.';
 		$this->page         = 'config';
 
-		$this->version      = '1.0.0';
+		$this->version      = '1.1.0';
 		$this->requires     = array(
 			'MantisCore' => '2.0.0',
 		);
@@ -128,6 +128,7 @@ class IssueRecurrencePlugin extends MantisPlugin {
 		return array(
 			'EVENT_MENU_MAIN'        => 'menu_main',
 			'EVENT_MENU_MANAGE'      => 'menu_manage',
+			'EVENT_MENU_ISSUE'       => 'menu_issue',
 			'EVENT_LAYOUT_RESOURCES' => 'resources',
 			# Fallback-Trigger: prueft bei Seitenaufrufen, ob faellige Vorlagen existieren.
 			'EVENT_CORE_READY'       => 'maybe_run_on_page',
@@ -156,6 +157,25 @@ class IssueRecurrencePlugin extends MantisPlugin {
 					'url' => plugin_page( 'manage' ),
 					'icon' => 'fa-refresh',
 				),
+			);
+		}
+		return array();
+	}
+
+	/**
+	 * Fuegt in der Ticket-Ansicht einen Button "In wiederkehrendes Ticket
+	 * umwandeln" hinzu (nur fuer berechtigte Nutzer). Der Button oeffnet das
+	 * Vorlagen-Formular mit den Inhalten des Tickets vorbefuellt.
+	 * @param string $p_event  Event-Name.
+	 * @param int    $p_bug_id Ticket-ID.
+	 * @return array
+	 */
+	function menu_issue( $p_event, $p_bug_id ) {
+		if( access_has_bug_level( plugin_config_get( 'manage_threshold' ), $p_bug_id ) ) {
+			# Rueckgabe: array( Beschriftung => URL ) -> wird als Button gerendert.
+			return array(
+				plugin_lang_get( 'convert_to_recurring' ) =>
+					plugin_page( 'template_edit_page' ) . '&from_bug_id=' . (int)$p_bug_id,
 			);
 		}
 		return array();

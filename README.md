@@ -20,6 +20,7 @@ automatisch in den festgelegten Abständen neue Tickets.
 - 🗓️ **Start- und (optionales) Enddatum** mit Uhrzeit.
 - 🎯 **Vollständige Ticket-Vorlage** – Projekt, Kategorie, Zusammenfassung, Beschreibung, Bearbeiter, Priorität, Schweregrad, Reproduzierbarkeit, Sichtbarkeit und optionales Fälligkeitsdatum.
 - 🧩 **Benutzerdefinierte Felder (Custom Fields)** – die dem gewählten Projekt zugeordneten Custom Fields werden im Formular angezeigt, in der Vorlage gespeichert und beim Erstellen auf das neue Ticket übertragen. Beim Wechsel des Projekts lädt das Formular automatisch die passenden Felder.
+- ♻️ **Bestehendes Ticket umwandeln** – in der Ticket-Ansicht gibt es den Button **„In wiederkehrendes Ticket umwandeln"**. Er öffnet das Vorlagen-Formular mit allen Inhalten des Tickets (inkl. Custom Fields) vorbefüllt; es muss nur noch die Wiederholungsregel ergänzt werden.
 - 🔣 **Platzhalter** in Zusammenfassung/Beschreibung: `{date}`, `{datetime}`, `{time}`, `{year}`, `{month}`, `{day}`, `{week}`.
 - ⏯️ **Aktivieren/Pausieren** einzelner Regeln, ohne sie zu löschen.
 - ⏱️ **Zwei Auslöse-Mechanismen** (kombinierbar):

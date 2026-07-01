@@ -16,12 +16,17 @@ require_api( 'print_api.php' );
 require_api( 'html_api.php' );
 require_api( 'category_api.php' );
 require_api( 'custom_field_api.php' );
+require_api( 'bug_api.php' );
 
 auth_ensure_user_authenticated();
 access_ensure_project_level( plugin_config_get( 'manage_threshold' ) );
 
-$f_id     = gpc_get_int( 'id', 0 );
-$f_reload = gpc_get_bool( 'reload', false );
+$f_id       = gpc_get_int( 'id', 0 );
+$f_reload   = gpc_get_bool( 'reload', false );
+$f_from_bug = gpc_get_int( 'from_bug_id', 0 );
+
+# Hinweis, dass Inhalte aus einem Ticket uebernommen wurden (0 = kein Hinweis).
+$t_from_bug_notice = 0;
 
 if( $f_reload ) {
 	# Neuladen nach Projektwechsel: alle eingegebenen Werte aus POST uebernehmen,
@@ -29,6 +34,7 @@ if( $f_reload ) {
 	$t_template = issue_recurrence_gpc_to_template();
 	$t_is_new = ( $f_id == 0 );
 	$t_cf_values = issue_recurrence_cf_gpc_values( (int)$t_template['project_id'] );
+	$t_from_bug_notice = gpc_get_int( 'from_bug_id', 0 );
 } else if( $f_id > 0 ) {
 	$t_template = issue_recurrence_template_get( $f_id );
 	if( $t_template === null ) {
@@ -36,6 +42,14 @@ if( $f_reload ) {
 	}
 	$t_is_new = false;
 	$t_cf_values = issue_recurrence_cf_get_values( $f_id );
+} else if( $f_from_bug > 0 ) {
+	# "In wiederkehrendes Ticket umwandeln": Inhalte aus dem Ticket uebernehmen.
+	bug_ensure_exists( $f_from_bug );
+	access_ensure_bug_level( plugin_config_get( 'manage_threshold' ), $f_from_bug );
+	$t_template = issue_recurrence_template_from_bug( $f_from_bug );
+	$t_is_new = true;
+	$t_cf_values = issue_recurrence_cf_values_from_bug( $f_from_bug, (int)$t_template['project_id'] );
+	$t_from_bug_notice = $f_from_bug;
 } else {
 	$t_template = issue_recurrence_template_blank();
 	$t_is_new = true;
@@ -77,10 +91,18 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 <div class="col-md-12 col-xs-12">
 <div class="space-10"></div>
 
+<?php if( $t_from_bug_notice > 0 ) { ?>
+<div class="alert alert-info">
+	<i class="ace-icon fa fa-info-circle"></i>
+	<?php echo sprintf( plugin_lang_get( 'converted_from_bug' ), (int)$t_from_bug_notice ) ?>
+</div>
+<?php } ?>
+
 <form id="issue-recurrence-form" method="post" action="<?php echo plugin_page( 'template_save' ) ?>">
 <?php echo form_security_field( 'plugin_IssueRecurrence_save' ) ?>
 <input type="hidden" name="id" value="<?php echo (int)$t_template['id'] ?>"/>
 <input type="hidden" name="reload" id="ir-reload" value="0"/>
+<input type="hidden" name="from_bug_id" value="<?php echo (int)$t_from_bug_notice ?>"/>
 
 <div class="widget-box widget-color-blue2">
 	<div class="widget-header widget-header-small">

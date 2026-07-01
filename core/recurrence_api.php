@@ -23,6 +23,50 @@ require_api( 'custom_field_api.php' );
 require_api( 'gpc_api.php' );
 
 /**
+ * Baut ein Vorlagen-Array aus einem bestehenden Ticket (fuer "In wiederkehrendes
+ * Ticket umwandeln"). Uebernimmt die Ticket-Inhalte; die Wiederholungsregel
+ * bleibt auf den Standardwerten und wird vom Benutzer ausgefuellt.
+ * @param int $p_bug_id Ticket-ID.
+ * @return array
+ */
+function issue_recurrence_template_from_bug( $p_bug_id ) {
+	$t_bug = bug_get( $p_bug_id, true );
+
+	$t_template = issue_recurrence_template_blank();
+	$t_template['name']            = $t_bug->summary;
+	$t_template['project_id']      = (int)$t_bug->project_id;
+	$t_template['handler_id']      = (int)$t_bug->handler_id;
+	$t_template['category_id']     = (int)$t_bug->category_id;
+	$t_template['summary']         = $t_bug->summary;
+	$t_template['description']     = $t_bug->description;
+	$t_template['priority']        = (int)$t_bug->priority;
+	$t_template['severity']        = (int)$t_bug->severity;
+	$t_template['reproducibility'] = (int)$t_bug->reproducibility;
+	$t_template['view_state']      = (int)$t_bug->view_state;
+
+	return $t_template;
+}
+
+/**
+ * Liest die Custom-Field-Werte eines bestehenden Tickets aus (fuer die
+ * Vorbefuellung beim Umwandeln in eine Vorlage).
+ * @param int $p_bug_id     Ticket-ID.
+ * @param int $p_project_id Projekt des Tickets.
+ * @return array field_id => value.
+ */
+function issue_recurrence_cf_values_from_bug( $p_bug_id, $p_project_id ) {
+	$t_values = array();
+	$t_ids = custom_field_get_linked_ids( (int)$p_project_id );
+	foreach( $t_ids as $t_id ) {
+		$t_val = custom_field_get_value( $t_id, $p_bug_id );
+		if( $t_val !== false && $t_val !== null && $t_val !== '' ) {
+			$t_values[(int)$t_id] = (string)$t_val;
+		}
+	}
+	return $t_values;
+}
+
+/**
  * Baut ein Vorlagen-Array aus den geposteten Formulardaten (GPC).
  * Wird sowohl beim Speichern als auch beim Neuladen (Projektwechsel) verwendet.
  * @return array

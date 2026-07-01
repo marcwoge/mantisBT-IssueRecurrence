@@ -12,6 +12,8 @@ $s_plugin_IssueRecurrence_plugin_description = 'Automatically creates recurring 
 
 # Menu
 $s_plugin_IssueRecurrence_menu_recurrence = 'Recurring Issues';
+$s_plugin_IssueRecurrence_convert_to_recurring = 'Convert to recurring issue';
+$s_plugin_IssueRecurrence_converted_from_bug   = 'Content taken from issue #%d. Just set the recurrence rule and save.';
 
 # Management
 $s_plugin_IssueRecurrence_manage_title       = 'Recurring Issues Management';
