@@ -149,6 +149,20 @@ benutzerdefinierten Felder (`template_id`, `field_id`, `value`).
 
 ---
 
+## Lokal testen (Docker)
+
+Im Ordner [`docker/`](docker/) liegt eine komplette MantisBT-Sandbox
+(MantisBT 2.28 + MariaDB + Mailpit). Damit wurde dieses Plugin end-to-end
+verifiziert (Installation, Vorlagen, Custom Fields, manueller Lauf und
+Cron-Skript).
+
+```bash
+docker compose up -d --build
+# MantisBT: http://localhost:8989  (Installer einmalig abschließen)
+```
+
+Details siehe [docker/README.md](docker/README.md).
+
 ## Lizenz
 
 [GNU General Public License v2.0](LICENSE) – wie MantisBT selbst.
