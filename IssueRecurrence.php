@@ -33,7 +33,7 @@ class IssueRecurrencePlugin extends MantisPlugin {
 		$this->description  = 'Creates recurring issues (series) from templates based on a recurrence rule (daily, weekly, monthly, yearly), including custom fields of the target project.';
 		$this->page         = 'config';
 
-		$this->version      = '1.2.0';
+		$this->version      = '1.2.1';
 		$this->requires     = array(
 			'MantisCore' => '2.0.0',
 		);
