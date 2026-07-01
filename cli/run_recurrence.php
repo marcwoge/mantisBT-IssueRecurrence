@@ -12,7 +12,7 @@
  *   php D:\mantisbt\plugins\IssueRecurrence\cli\run_recurrence.php
  *
  * @package IssueRecurrence
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License
+ * @license https://opensource.org/licenses/MIT MIT License
  */
 
 # Nur ueber die Kommandozeile ausfuehrbar.

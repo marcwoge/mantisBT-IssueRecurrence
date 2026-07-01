@@ -5,7 +5,7 @@
  * Verwaltung der Vorlagen (CRUD) und Erzeugung neuer Tickets aus faelligen Vorlagen.
  *
  * @package IssueRecurrence
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License
+ * @license https://opensource.org/licenses/MIT MIT License
  */
 
 if( !function_exists( 'plugin_lang_get' ) ) {

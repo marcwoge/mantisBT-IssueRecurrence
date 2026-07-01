@@ -6,7 +6,7 @@
  * analog zu Serienterminen (taeglich / woechentlich / monatlich / jaehrlich).
  *
  * @package IssueRecurrence
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License
+ * @license https://opensource.org/licenses/MIT MIT License
  */
 
 if( !defined( 'MANTIS_DIR' ) && !function_exists( 'plugin_lang_get' ) ) {

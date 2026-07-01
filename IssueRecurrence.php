@@ -7,8 +7,8 @@
  * vergleichbar mit Serienterminen in Outlook.
  *
  * @package   IssueRecurrence
- * @copyright Copyright (C) 2026  marcwoge
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License
+ * @copyright Copyright (c) 2026 Marc-Philipp Woge
+ * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/marcwoge/mantisBT-IssueRecurrence
  */
 

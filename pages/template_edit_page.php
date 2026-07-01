@@ -5,7 +5,7 @@
  * Dient sowohl dem Erstellen (ohne id) als auch dem Bearbeiten (mit id).
  *
  * @package IssueRecurrence
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License
+ * @license https://opensource.org/licenses/MIT MIT License
  */
 
 require_api( 'authentication_api.php' );
