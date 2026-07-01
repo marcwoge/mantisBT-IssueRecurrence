@@ -33,7 +33,7 @@ class IssueRecurrencePlugin extends MantisPlugin {
 		$this->description  = 'Creates recurring issues (series) from templates based on a recurrence rule (daily, weekly, monthly, yearly), including custom fields of the target project.';
 		$this->page         = 'config';
 
-		$this->version      = '1.1.0';
+		$this->version      = '1.2.0';
 		$this->requires     = array(
 			'MantisCore' => '2.0.0',
 		);
@@ -117,6 +117,10 @@ class IssueRecurrencePlugin extends MantisPlugin {
 				value               XL      NOTNULL
 				", array( 'mysql' => 'DEFAULT CHARSET=utf8' ) ) ),
 			array( 'CreateIndexSQL', array( 'idx_ircf_template_field', plugin_table( 'cf_value' ), 'template_id,field_id', array( 'UNIQUE' ) ) ),
+
+			# --- Upgrade 1.2.0: Verweis auf das Ursprungsticket (bei Umwandlung) ---
+			array( 'AddColumnSQL', array( plugin_table( 'template' ),
+				"source_bug_id I UNSIGNED NOTNULL DEFAULT '0'" ) ),
 		);
 	}
 

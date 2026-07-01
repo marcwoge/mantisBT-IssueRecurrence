@@ -28,6 +28,7 @@ $s_plugin_IssueRecurrence_col_summary        = 'Zusammenfassung';
 $s_plugin_IssueRecurrence_col_rule           = 'Wiederholung';
 $s_plugin_IssueRecurrence_col_next_run       = 'Naechste Ausfuehrung';
 $s_plugin_IssueRecurrence_col_created_count  = 'Erstellt';
+$s_plugin_IssueRecurrence_col_source         = 'Ursprung';
 $s_plugin_IssueRecurrence_col_actions        = 'Aktionen';
 $s_plugin_IssueRecurrence_status_active      = 'Aktiv';
 $s_plugin_IssueRecurrence_status_paused      = 'Pausiert';
@@ -44,6 +45,7 @@ $s_plugin_IssueRecurrence_field_name_hint     = 'Interner Name dieser Wiederholu
 $s_plugin_IssueRecurrence_field_enabled       = 'Aktiv';
 $s_plugin_IssueRecurrence_field_enabled_label = 'Diese Wiederholung ist aktiv';
 $s_plugin_IssueRecurrence_field_project       = 'Projekt';
+$s_plugin_IssueRecurrence_field_source_ticket = 'Ursprungsticket';
 $s_plugin_IssueRecurrence_field_project_hint  = 'Bei Wechsel des Projekts wird das Formular neu geladen, um die passenden benutzerdefinierten Felder anzuzeigen.';
 
 # Formular - Ticket-Inhalt

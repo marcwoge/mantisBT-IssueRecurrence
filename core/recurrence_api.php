@@ -43,6 +43,7 @@ function issue_recurrence_template_from_bug( $p_bug_id ) {
 	$t_template['severity']        = (int)$t_bug->severity;
 	$t_template['reproducibility'] = (int)$t_bug->reproducibility;
 	$t_template['view_state']      = (int)$t_bug->view_state;
+	$t_template['source_bug_id']   = (int)$p_bug_id;
 
 	return $t_template;
 }
@@ -119,6 +120,7 @@ function issue_recurrence_gpc_to_template() {
 		'end_date'        => $t_end_date,
 		'last_run'        => null,
 		'next_run'        => null,
+		'source_bug_id'   => gpc_get_int( 'source_bug_id', 0 ),
 	);
 }
 
@@ -151,6 +153,7 @@ function issue_recurrence_template_blank() {
 		'end_date'        => null,
 		'last_run'        => null,
 		'next_run'        => null,
+		'source_bug_id'   => 0,
 	);
 }
 
@@ -226,6 +229,7 @@ function issue_recurrence_template_save( array $p_template ) {
 		'start_date'      => (int)$p_template['start_date'],
 		'end_date'        => $p_template['end_date'] ? (int)$p_template['end_date'] : null,
 		'next_run'        => $t_next,
+		'source_bug_id'   => isset( $p_template['source_bug_id'] ) ? (int)$p_template['source_bug_id'] : 0,
 	);
 
 	if( (int)$p_template['id'] > 0 ) {

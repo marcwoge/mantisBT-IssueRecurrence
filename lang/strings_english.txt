@@ -28,6 +28,7 @@ $s_plugin_IssueRecurrence_col_summary        = 'Summary';
 $s_plugin_IssueRecurrence_col_rule           = 'Recurrence';
 $s_plugin_IssueRecurrence_col_next_run       = 'Next Run';
 $s_plugin_IssueRecurrence_col_created_count  = 'Created';
+$s_plugin_IssueRecurrence_col_source         = 'Source';
 $s_plugin_IssueRecurrence_col_actions        = 'Actions';
 $s_plugin_IssueRecurrence_status_active      = 'Active';
 $s_plugin_IssueRecurrence_status_paused      = 'Paused';
@@ -44,6 +45,7 @@ $s_plugin_IssueRecurrence_field_name_hint     = 'Internal name of this recurrenc
 $s_plugin_IssueRecurrence_field_enabled       = 'Active';
 $s_plugin_IssueRecurrence_field_enabled_label = 'This recurrence is active';
 $s_plugin_IssueRecurrence_field_project       = 'Project';
+$s_plugin_IssueRecurrence_field_source_ticket = 'Source issue';
 $s_plugin_IssueRecurrence_field_project_hint  = 'Changing the project reloads the form to show the matching custom fields.';
 
 # Form - Issue content

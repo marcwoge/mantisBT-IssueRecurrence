@@ -25,16 +25,12 @@ $f_id       = gpc_get_int( 'id', 0 );
 $f_reload   = gpc_get_bool( 'reload', false );
 $f_from_bug = gpc_get_int( 'from_bug_id', 0 );
 
-# Hinweis, dass Inhalte aus einem Ticket uebernommen wurden (0 = kein Hinweis).
-$t_from_bug_notice = 0;
-
 if( $f_reload ) {
 	# Neuladen nach Projektwechsel: alle eingegebenen Werte aus POST uebernehmen,
 	# damit nichts verloren geht; Custom Fields fuer das (neue) Projekt aus POST lesen.
 	$t_template = issue_recurrence_gpc_to_template();
 	$t_is_new = ( $f_id == 0 );
 	$t_cf_values = issue_recurrence_cf_gpc_values( (int)$t_template['project_id'] );
-	$t_from_bug_notice = gpc_get_int( 'from_bug_id', 0 );
 } else if( $f_id > 0 ) {
 	$t_template = issue_recurrence_template_get( $f_id );
 	if( $t_template === null ) {
@@ -49,12 +45,14 @@ if( $f_reload ) {
 	$t_template = issue_recurrence_template_from_bug( $f_from_bug );
 	$t_is_new = true;
 	$t_cf_values = issue_recurrence_cf_values_from_bug( $f_from_bug, (int)$t_template['project_id'] );
-	$t_from_bug_notice = $f_from_bug;
 } else {
 	$t_template = issue_recurrence_template_blank();
 	$t_is_new = true;
 	$t_cf_values = array();
 }
+
+# Verweis auf das Ursprungsticket (bei Umwandlung gesetzt), 0 = keins.
+$t_source_bug_id = isset( $t_template['source_bug_id'] ) ? (int)$t_template['source_bug_id'] : 0;
 
 $t_project_id = (int)$t_template['project_id'] > 0 ? (int)$t_template['project_id'] : helper_get_current_project();
 if( $t_project_id == ALL_PROJECTS ) {
@@ -91,10 +89,10 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 <div class="col-md-12 col-xs-12">
 <div class="space-10"></div>
 
-<?php if( $t_from_bug_notice > 0 ) { ?>
+<?php if( $t_is_new && $t_source_bug_id > 0 ) { ?>
 <div class="alert alert-info">
 	<i class="ace-icon fa fa-info-circle"></i>
-	<?php echo sprintf( plugin_lang_get( 'converted_from_bug' ), (int)$t_from_bug_notice ) ?>
+	<?php echo sprintf( plugin_lang_get( 'converted_from_bug' ), (int)$t_source_bug_id ) ?>
 </div>
 <?php } ?>
 
@@ -102,7 +100,7 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 <?php echo form_security_field( 'plugin_IssueRecurrence_save' ) ?>
 <input type="hidden" name="id" value="<?php echo (int)$t_template['id'] ?>"/>
 <input type="hidden" name="reload" id="ir-reload" value="0"/>
-<input type="hidden" name="from_bug_id" value="<?php echo (int)$t_from_bug_notice ?>"/>
+<input type="hidden" name="source_bug_id" value="<?php echo (int)$t_source_bug_id ?>"/>
 
 <div class="widget-box widget-color-blue2">
 	<div class="widget-header widget-header-small">
@@ -117,6 +115,12 @@ if( !function_exists( 'issue_recurrence_print_enum' ) ) {
 	<table class="table table-bordered table-condensed table-striped">
 
 		<!-- Allgemein -->
+<?php if( $t_source_bug_id > 0 ) { ?>
+		<tr>
+			<td class="category" width="25%"><?php echo plugin_lang_get( 'field_source_ticket' ) ?></td>
+			<td><?php echo string_get_bug_view_link( $t_source_bug_id ) ?></td>
+		</tr>
+<?php } ?>
 		<tr>
 			<td class="category" width="25%"><?php echo plugin_lang_get( 'field_name' ) ?> <span class="required">*</span></td>
 			<td>

@@ -61,12 +61,13 @@ layout_page_begin();
 				<th><?php echo plugin_lang_get( 'col_rule' ) ?></th>
 				<th><?php echo plugin_lang_get( 'col_next_run' ) ?></th>
 				<th><?php echo plugin_lang_get( 'col_created_count' ) ?></th>
+				<th><?php echo plugin_lang_get( 'col_source' ) ?></th>
 				<th><?php echo plugin_lang_get( 'col_actions' ) ?></th>
 			</tr>
 		</thead>
 		<tbody>
 <?php if( empty( $t_templates ) ) { ?>
-			<tr><td colspan="8" class="center"><em><?php echo plugin_lang_get( 'no_templates' ) ?></em></td></tr>
+			<tr><td colspan="9" class="center"><em><?php echo plugin_lang_get( 'no_templates' ) ?></em></td></tr>
 <?php } else {
 	foreach( $t_templates as $t_template ) {
 		$t_id = (int)$t_template['id'];
@@ -88,6 +89,7 @@ layout_page_begin();
 				<td><?php echo string_display_line( issue_recurrence_describe( $t_template ) ) ?></td>
 				<td><?php echo $t_next ?></td>
 				<td class="center"><?php echo $t_count ?></td>
+				<td><?php echo (int)$t_template['source_bug_id'] > 0 ? string_get_bug_view_link( (int)$t_template['source_bug_id'] ) : '-' ?></td>
 				<td class="nowrap">
 					<a class="btn btn-xs btn-primary btn-white btn-round"
 					   href="<?php echo plugin_page( 'template_edit_page' ) ?>&amp;id=<?php echo $t_id ?>">
