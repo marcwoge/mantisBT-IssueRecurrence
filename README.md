@@ -30,21 +30,26 @@ automatisch in den festgelegten Abständen neue Tickets.
 
 ---
 
+Der eigentliche Plugin-Code liegt im Ordner [`IssueRecurrence/`](IssueRecurrence/).
+Nur dieser Ordner gehört in deine MantisBT-Installation (Docker/Dev-Dateien im
+Repo-Stamm sind nur fürs Testen).
+
 ## Installation
 
-1. Repository in das Plugin-Verzeichnis deiner MantisBT-Installation klonen
-   bzw. den Ordner dorthin kopieren. Der Ordner **muss** `IssueRecurrence` heißen:
+**Empfohlen (Release-Artefakt):** Auf der
+[Releases-Seite](https://github.com/marcwoge/mantisBT-IssueRecurrence/releases)
+die Datei `IssueRecurrence-<version>.zip` herunterladen (enthält **nur** den
+Plugin-Ordner) und nach `mantisbt/plugins/` entpacken, sodass
+`mantisbt/plugins/IssueRecurrence/` entsteht.
 
-   ```bash
-   cd /pfad/zu/mantisbt/plugins
-   git clone https://github.com/marcwoge/mantisBT-IssueRecurrence.git IssueRecurrence
-   ```
+**Alternativ (aus dem Repo):** Nur den Unterordner `IssueRecurrence/` nach
+`mantisbt/plugins/IssueRecurrence/` kopieren.
 
-2. In MantisBT als Administrator anmelden → **Verwaltung → Plugins verwalten**.
-3. Bei **Recurring Issues / Wiederkehrende Tickets** auf **Installieren** klicken.
-   (Die benötigten Datenbanktabellen werden automatisch angelegt.)
+Danach in MantisBT als Administrator: **Verwaltung → Plugins verwalten** →
+bei **Recurring Issues** auf **Installieren** (die Datenbanktabellen werden
+automatisch angelegt).
 
-> Kompatibilität: MantisBT **2.x**, PHP **7.4+**.
+> Kompatibilität: MantisBT **2.x**, PHP **7.4+** (getestet mit 2.28 / PHP 8.2).
 
 ---
 
@@ -105,31 +110,28 @@ Unter **Verwaltung → Plugins verwalten → IssueRecurrence → Konfiguration**
 
 ---
 
-## Projektstruktur
+## Repo-Struktur
 
 ```
-IssueRecurrence/
-├── IssueRecurrence.php          # Haupt-Plugin-Klasse (Registrierung, Schema, Hooks)
-├── core/
-│   ├── recurrence_api.php       # CRUD der Vorlagen + Ticket-Erstellung
-│   └── schedule_api.php         # Berechnung der Wiederholungstermine
-├── pages/
-│   ├── manage.php               # Übersicht / Verwaltung
-│   ├── template_edit_page.php   # Formular (Anlegen & Bearbeiten)
-│   ├── template_save.php        # Speichern
-│   ├── template_delete.php      # Löschen
-│   ├── template_toggle.php      # Aktivieren / Pausieren
-│   ├── run.php                  # Manueller Lauf
-│   ├── config.php               # Konfigurationsseite
-│   └── config_save.php          # Konfiguration speichern
-├── cli/
-│   └── run_recurrence.php       # Cron-/CLI-Einstiegspunkt
-├── lang/
-│   ├── strings_german.txt
-│   └── strings_english.txt
-└── files/
-    └── issue_recurrence.css
+mantisBT-IssueRecurrence/
+├── IssueRecurrence/          # das Plugin (= Inhalt des Release-Artefakts)
+│   ├── IssueRecurrence.php   #   Haupt-Plugin-Klasse (Registrierung, Schema, Hooks)
+│   ├── core/                 #   Zeitplan-Logik + CRUD/Ticket-Erstellung
+│   ├── pages/                #   Verwaltung, Formular, Aktionen, Konfiguration
+│   ├── cli/                  #   Cron-/CLI-Einstiegspunkt
+│   ├── lang/                 #   Sprachdateien (DE/EN)
+│   ├── files/                #   Stylesheet
+│   ├── LICENSE
+│   └── README.md             #   Plugin-Doku (Installation/Nutzung)
+├── docker/                   # lokale MantisBT-Testumgebung (nur fürs Testen)
+├── docker-compose.yml
+├── build-release.sh          # baut das Plugin-only Release-ZIP
+├── LICENSE
+└── README.md                 # diese Übersicht
 ```
+
+Ein Release-ZIP (nur der `IssueRecurrence/`-Ordner) lässt sich mit
+`./build-release.sh` erzeugen.
 
 ---
 

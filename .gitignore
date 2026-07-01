@@ -12,3 +12,6 @@ Thumbs.db
 # PHP
 vendor/
 composer.lock
+
+# Build-Artefakte (Release-ZIP)
+IssueRecurrence-*.zip
