@@ -1,0 +1,61 @@
+name: Release
+
+# Baut bei jedem Version-Tag (v*) automatisch das Plugin-only ZIP und
+# haengt es zusammen mit der LICENSE an ein GitHub-Release.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: PHP einrichten (7.4 – Mindestversion des Plugins)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: PHP-Syntax pruefen (php -l)
+        run: |
+          set -e
+          find IssueRecurrence -name '*.php' -print0 \
+            | xargs -0 -n1 -P4 php -l
+
+      - name: Tag- und Plugin-Version abgleichen
+        id: ver
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PLUGIN_VER=$(grep -oE "this->version[[:space:]]*=[[:space:]]*'[^']+'" \
+            IssueRecurrence/IssueRecurrence.php | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          echo "plugin=$PLUGIN_VER" >> "$GITHUB_OUTPUT"
+          echo "Tag=$TAG  Plugin=$PLUGIN_VER"
+          if [ "$TAG" != "$PLUGIN_VER" ]; then
+            echo "::error::Tag ($TAG) und \$this->version ($PLUGIN_VER) stimmen nicht ueberein. Bitte die Version in IssueRecurrence/IssueRecurrence.php anpassen und den Tag neu setzen."
+            exit 1
+          fi
+
+      - name: Plugin-only ZIP bauen
+        run: bash build-release.sh
+
+      - name: Release erstellen und Assets anhaengen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ZIP="IssueRecurrence-${{ steps.ver.outputs.plugin }}.zip"
+          # Falls das Release schon existiert (z. B. manuell mit Notizen angelegt),
+          # nur die Assets hochladen; sonst Release mit Auto-Notizen erstellen.
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$ZIP" "IssueRecurrence/LICENSE" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              --title "$GITHUB_REF_NAME" \
+              --generate-notes \
+              "$ZIP" "IssueRecurrence/LICENSE"
+          fi

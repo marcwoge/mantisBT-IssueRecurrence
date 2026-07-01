@@ -166,6 +166,22 @@ docker compose up -d --build
 
 Details siehe [docker/README.md](docker/README.md).
 
+## Release erstellen
+
+Releases sind automatisiert ([`.github/workflows/release.yml`](.github/workflows/release.yml)).
+Ablauf:
+
+1. `$this->version` in `IssueRecurrence/IssueRecurrence.php` erhöhen, committen.
+2. Passenden Tag setzen und pushen, z. B.:
+   ```bash
+   git tag -a v1.2.3 -m "IssueRecurrence v1.2.3" && git push origin v1.2.3
+   ```
+
+Die GitHub Action prüft dann die PHP-Syntax, kontrolliert, dass Tag und
+Plugin-Version übereinstimmen, baut das Plugin-only ZIP (`build-release.sh`)
+und hängt es zusammen mit der `LICENSE` an das Release. Existiert das Release
+schon (manuell mit Notizen angelegt), werden nur die Assets ergänzt.
+
 ## Lizenz
 
 [MIT License](LICENSE) © 2026 Marc-Philipp Woge
