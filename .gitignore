@@ -15,3 +15,6 @@ composer.lock
 
 # Build-Artefakte (Release-ZIP)
 IssueRecurrence-*.zip
+
+# Local Docker sandbox secrets (see .env.example)
+.env
