@@ -49,7 +49,7 @@ Danach in MantisBT als Administrator: **Verwaltung → Plugins verwalten** →
 bei **Recurring Issues** auf **Installieren** (die Datenbanktabellen werden
 automatisch angelegt).
 
-> Kompatibilität: MantisBT **2.x**, PHP **7.4+** (getestet mit 2.28 / PHP 8.2).
+> Kompatibilität: MantisBT **2.x**, PHP **7.4+** (getestet mit MantisBT 2.28; CI-Lint mit PHP 8.3, 8.4 und 8.5).
 > **Empfehlung:** MantisBT **2.28.4 oder neuer** einsetzen (behebt CVE-2026-47156).
 
 ---
